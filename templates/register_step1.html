@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}Leo - Choose Registration Method{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold" style="color: #2d3748; font-size: 28px;">Create Your Account</h2>
+            <p style="color: #718096;">Choose how you'd like to register</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' if category == 'success' else 'info' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" id="registrationForm">
+            <div class="registration-methods">
+                <!-- Phone Registration -->
+                <div class="method-card" onclick="selectAndContinue('phone')">
+                    <div class="method-icon phone-icon">
+                        <i class="bi bi-telephone-fill"></i>
+                    </div>
+                    <h4 class="method-title">Register with Phone</h4>
+                    <p class="method-description">Get an OTP on your mobile number</p>
+                    <input type="radio" name="method" value="phone" id="phone-method" style="display: none;">
+                </div>
+
+                <!-- Email Registration -->
+                <div class="method-card" onclick="selectAndContinue('google')">
+                    <div class="method-icon google-icon">
+                        <i class="bi bi-envelope-fill"></i>
+                    </div>
+                    <h4 class="method-title">Register with Email</h4>
+                    <p class="method-description">Get an OTP on your email address</p>
+                    <input type="radio" name="method" value="google" id="google-method" style="display: none;">
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p style="color: #718096; font-size: 13px;">Already have an account? <a href="{{ url_for('login') }}" style="color: #4a5568; text-decoration: none; font-weight: 600;">Login here</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f6f8 0%, #e8eaef 100%);
+    padding: 20px;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 12px;
+    padding: 45px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+    max-width: 520px;
+    width: 100%;
+}
+
+.registration-methods {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin: 35px 0;
+}
+
+.method-card {
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 30px 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f7fafc;
+    position: relative;
+}
+
+.method-card:hover {
+    border-color: #4a5568;
+    background: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(74, 85, 104, 0.12);
+}
+
+.method-card.selected {
+    border-color: #4a5568;
+    background: white;
+    box-shadow: 0 8px 25px rgba(74, 85, 104, 0.12);
+}
+
+.method-icon {
+    font-size: 42px;
+    margin-bottom: 18px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.phone-icon {
+    background: #f0f4f8;
+    color: #4a5568;
+}
+
+.google-icon {
+    background: #fef2f2;
+    color: #c53030;
+}
+
+.method-card:hover .method-icon {
+    transform: scale(1.05);
+}
+
+.method-title {
+    font-weight: 700;
+    margin: 15px 0 8px 0;
+    color: #2d3748;
+    font-size: 16px;
+}
+
+.method-description {
+    color: #718096;
+    font-size: 13px;
+    margin: 0;
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    font-size: 13px;
+}
+
+.alert-danger {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+.alert-success {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.alert-info {
+    background: #bee3f8;
+    color: #2c5282;
+}
+
+@media (max-width: 576px) {
+    .auth-card {
+        padding: 30px;
+        border-radius: 10px;
+    }
+    
+    .method-card {
+        padding: 25px 20px;
+    }
+    
+    .method-title {
+        font-size: 15px;
+    }
+}
+</style>
+
+<script>
+function selectAndContinue(method) {
+    const form = document.getElementById('registrationForm');
+    const methodInput = method === 'phone' ? document.getElementById('phone-method') : document.getElementById('google-method');
+    
+    methodInput.checked = true;
+    
+    // Update UI
+    document.querySelectorAll('.method-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    event.currentTarget.classList.add('selected');
+    
+    // Auto-submit after a short delay
+    setTimeout(() => {
+        form.submit();
+    }, 200);
+}
+
+// Auto-dismiss alerts
+document.querySelectorAll('[role="alert"]').forEach(alert => {
+    setTimeout(() => {
+        try {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        } catch (e) {}
+    }, 5000);
+});
+</script>
+{% endblock %}

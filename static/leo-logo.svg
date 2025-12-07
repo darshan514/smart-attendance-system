@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  
+  <!-- Eye circle -->
+  <circle cx="100" cy="85" r="45" fill="none" stroke="white" stroke-width="3"/>
+  
+  <!-- Iris -->
+  <circle cx="100" cy="85" r="30" fill="none" stroke="white" stroke-width="2"/>
+  
+  <!-- Pupil -->
+  <circle cx="100" cy="85" r="18" fill="white"/>
+  
+  <!-- Eye shine -->
+  <circle cx="92" cy="78" r="6" fill="rgba(45, 55, 72, 0.6)"/>
+  
+  <!-- Center dot -->
+  <circle cx="100" cy="85" r="8" fill="rgba(45, 55, 72, 0.8)"/>
+  
+  <!-- Recognition waves -->
+  <path d="M 60 85 Q 70 75 80 85" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <path d="M 120 85 Q 130 75 140 85" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  
+  <!-- Bottom accent line -->
+  <line x1="75" y1="130" x2="125" y2="130" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+</svg>

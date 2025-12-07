@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Leo - Register with Email{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="text-center mb-4">
+            <div class="step-indicator">
+                <div class="step active"><span>1</span></div>
+                <div class="step-line"></div>
+                <div class="step"><span>2</span></div>
+                <div class="step-line"></div>
+                <div class="step"><span>3</span></div>
+            </div>
+            <h2 style="color: #2d3748; font-size: 24px; font-weight: 700; margin: 20px 0 8px 0;">Enter Your Email</h2>
+            <p style="color: #718096; font-size: 14px; margin: 0;">We'll send you a one-time password (OTP)</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' if category == 'success' else 'info' }}" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div style="margin-bottom: 25px;">
+                <label style="color: #2d3748; font-weight: 600; font-size: 13px; display: block; margin-bottom: 10px;">Email Address</label>
+                <div style="display: flex; gap: 0;">
+                    <span style="background: #c53030; color: white; border: 2px solid #c53030; padding: 11px 13px; border-radius: 8px 0 0 8px; font-weight: 600;"><i class="bi bi-envelope-fill"></i></span>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="your.email@example.com"
+                        required
+                        style="flex: 1; border: 2px solid #e2e8f0; padding: 11px 13px; border-radius: 0 8px 8px 0; font-size: 15px; color: #2d3748;"
+                    >
+                </div>
+                <small style="color: #718096; display: block; margin-top: 10px; font-size: 12px;">
+                    <i class="bi bi-info-circle"></i> We'll send an OTP to this email
+                </small>
+            </div>
+
+            <button type="submit" style="width: 100%; background: #4a5568; color: white; border: none; font-weight: 600; padding: 11px; border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                Send OTP <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <p style="color: #718096; font-size: 13px; margin: 0;">
+                    <a href="{{ url_for('register_user') }}" style="color: #4a5568; text-decoration: none; font-weight: 600;">← Back to method selection</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f6f8 0%, #e8eaef 100%);
+    padding: 20px;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 12px;
+    padding: 45px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+    max-width: 520px;
+    width: 100%;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e2e8f0;
+    color: #a0aec0;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.step.active {
+    background: #4a5568;
+    color: white;
+}
+
+.step-line {
+    width: 20px;
+    height: 2px;
+    background: #e2e8f0;
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    font-size: 13px;
+}
+
+.alert-danger {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+.alert-success {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.alert-info {
+    background: #bee3f8;
+    color: #2c5282;
+}
+
+input:focus {
+    border-color: #4a5568 !important;
+    box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.1) !important;
+    outline: none;
+}
+
+@media (max-width: 576px) {
+    .auth-card {
+        padding: 30px;
+    }
+}
+</style>
+
+<script>
+document.querySelectorAll('[role="alert"]').forEach(alert => {
+    setTimeout(() => {
+        try {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        } catch (e) {}
+    }, 5000);
+});
+</script>
+{% endblock %}

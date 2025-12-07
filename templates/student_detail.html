@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .header-section h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+  }
+
+  .header-section a {
+    background: #e2e8f0;
+    color: #2d3748;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .header-section a:hover {
+    background: #cbd5e0;
+    transform: translateY(-2px);
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+  }
+
+  .profile-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+
+  .profile-card-header {
+    background: #4a5568;
+    color: white;
+    padding: 20px;
+  }
+
+  .profile-card-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .profile-card-body {
+    padding: 25px;
+  }
+
+  .avatar-circle {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #4a5568, #2d3748);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 40px;
+  }
+
+  .profile-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a202c;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .profile-id {
+    text-align: center;
+    color: #718096;
+    font-size: 14px;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .profile-id .badge {
+    background: #4a5568;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .stat-box {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .stat-box:last-child {
+    border-bottom: none;
+  }
+
+  .stat-label {
+    color: #718096;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #4a5568;
+  }
+
+  .card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 25px;
+  }
+
+  .card-actions button,
+  .card-actions a {
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .card-actions .edit-btn {
+    background: #3182ce;
+    color: white;
+  }
+
+  .card-actions .edit-btn:hover {
+    background: #2563eb;
+  }
+
+  .card-actions .delete-btn {
+    background: #c53030;
+    color: white;
+  }
+
+  .card-actions .delete-btn:hover {
+    background: #a71d1d;
+  }
+
+  .attendance-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+
+  .attendance-card-header {
+    background: #4a5568;
+    color: white;
+    padding: 20px;
+  }
+
+  .attendance-card-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .table-wrapper {
+    padding: 0;
+  }
+
+  .table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table-wrapper thead tr {
+    background: #f7f9fc;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .table-wrapper th {
+    padding: 12px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    color: #2d3748;
+  }
+
+  .table-wrapper tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+    transition: background 0.2s;
+  }
+
+  .table-wrapper tbody tr:hover {
+    background: #f7f9fc;
+  }
+
+  .table-wrapper td {
+    padding: 12px 20px;
+    color: #2d3748;
+    font-size: 14px;
+  }
+
+  .table-wrapper .timestamp {
+    color: #718096;
+    font-size: 13px;
+  }
+
+  .badge {
+    background: #48bb78;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .empty-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #718096;
+  }
+
+  .empty-message p {
+    margin: 0;
+  }
+
+  .records-footer {
+    text-align: center;
+    color: #718096;
+    font-size: 13px;
+    padding: 20px;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  @media (max-width: 1024px) {
+    .detail-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="header-section">
+  <h1><i class="bi bi-person-lines-fill"></i> Student Details</h1>
+  <a href="{{ url_for('students') }}"><i class="bi bi-arrow-left"></i> Back to Students</a>
+</div>
+
+<div class="detail-grid">
+  <!-- Profile Card -->
+  <div class="profile-card">
+    <div class="profile-card-header">
+      <h3><i class="bi bi-person-circle"></i> Profile</h3>
+    </div>
+    <div class="profile-card-body">
+      <div class="avatar-circle">
+        <i class="bi bi-person-fill"></i>
+      </div>
+      <div class="profile-name">{{ student["name"] }}</div>
+      <div class="profile-id">
+        ID: <span class="badge">{{ student["id"] }}</span>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-label">Total Attendance</div>
+        <div class="stat-value">{{ total }}</div>
+      </div>
+
+      <div class="card-actions">
+        <a href="{{ url_for('students') }}" class="edit-btn">
+          <i class="bi bi-pencil"></i> Edit Student
+        </a>
+        <form action="{{ url_for('delete_student', student_id=student['id']) }}" method="post" onsubmit="return confirm('Delete this student permanently?');" style="margin: 0;">
+          <button type="submit" class="delete-btn">
+            <i class="bi bi-trash"></i> Delete Student
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attendance History -->
+    <div class="attendance-card-header">
+      <h3><i class="bi bi-calendar-check"></i> Recent Attendance</h3>
+    </div>
+    {% if attendance %}
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th><i class="bi bi-calendar-event"></i> Date & Time</th>
+            <th style="text-align: right;">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in attendance %}
+          <tr>
+            <td><span class="timestamp">{{ record["timestamp"] }}</span></td>
+            <td style="text-align: right;">
+              <span class="badge">
+                <i class="bi bi-check-circle"></i> Present
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="records-footer">
+      Showing latest 10 records
+    </div>
+    {% else %}
+    <div class="empty-message">
+      <i class="bi bi-inbox" style="font-size: 40px; color: #cbd5e0; display: block; margin-bottom: 15px;"></i>
+      <p>No attendance records yet for this student</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

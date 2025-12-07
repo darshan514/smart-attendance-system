@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .header-section h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+  }
+
+  .header-section small {
+    color: #718096;
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+  }
+
+  .header-section a {
+    background: #4a5568;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .header-section a:hover {
+    background: #2d3748;
+    transform: translateY(-2px);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: all 0.3s;
+  }
+
+  .stat-card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transform: translateY(-3px);
+  }
+
+  .stat-content {
+    flex: 1;
+  }
+
+  .stat-label {
+    color: #718096;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+  }
+
+  .stat-icon {
+    font-size: 50px;
+    opacity: 0.15;
+    margin-left: 20px;
+  }
+
+  .attendance-section {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+
+  .section-header {
+    background: #4a5568;
+    color: white;
+    padding: 20px;
+  }
+
+  .section-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .section-body {
+    padding: 25px;
+  }
+
+  .attendance-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .attendance-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .attendance-list li:last-child {
+    border-bottom: none;
+  }
+
+  .attendance-date {
+    color: #2d3748;
+    font-weight: 600;
+  }
+
+  .attendance-status {
+    background: #48bb78;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .empty-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #718096;
+  }
+
+  @media (max-width: 768px) {
+    .header-section {
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+      flex-direction: column;
+    }
+
+    .stat-icon {
+      margin-left: 0;
+      margin-top: 15px;
+    }
+  }
+</style>
+
+<div class="header-section">
+  <div>
+    <h1><i class="bi bi-speedometer"></i> My Dashboard</h1>
+    <small>Welcome, {{ user.full_name if user else 'Student' }}!</small>
+  </div>
+  <a href="{{ url_for('profile') }}"><i class="bi bi-person-circle"></i> Profile</a>
+</div>
+
+<!-- Statistics Cards -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-content">
+      <p class="stat-label">Today's Attendance</p>
+      <h2 class="stat-value">{{ today_marked|default(0) }}</h2>
+    </div>
+    <i class="bi bi-calendar-check stat-icon" style="color: #48bb78;"></i>
+  </div>
+  <div class="stat-card">
+    <div class="stat-content">
+      <p class="stat-label">Total Marked Days</p>
+      <h2 class="stat-value">{{ total_marked|default(0) }}</h2>
+    </div>
+    <i class="bi bi-graph-up stat-icon" style="color: #3182ce;"></i>
+  </div>
+  <div class="stat-card">
+    <div class="stat-content">
+      <p class="stat-label">Attendance %</p>
+      <h2 class="stat-value">{{ attendance_percent|default(0)|round(1) }}%</h2>
+    </div>
+    <i class="bi bi-percent stat-icon" style="color: #c05621;"></i>
+  </div>
+</div>
+
+<!-- Recent Attendance -->
+<div class="attendance-section">
+  <div class="section-header">
+    <h3><i class="bi bi-calendar-event"></i> Recent Attendance</h3>
+  </div>
+  <div class="section-body">
+    {% if attendance_records %}
+    <ul class="attendance-list">
+      {% for record in attendance_records[:10] %}
+      <li>
+        <span class="attendance-date">{{ record.date }}</span>
+        <span class="attendance-status">
+          <i class="bi bi-check-circle"></i> Present
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <div class="empty-message">
+      <i class="bi bi-inbox" style="font-size: 40px; color: #cbd5e0; display: block; margin-bottom: 15px;"></i>
+      <p>No attendance records yet</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

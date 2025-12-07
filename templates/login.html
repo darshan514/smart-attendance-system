@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Leo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            height: 100vh;
+        }
+
+        .login-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* LEFT SIDE - BRAND */
+        .brand-section {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        .brand-section::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 50%;
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-icon {
+            font-size: 80px;
+            margin-bottom: 25px;
+            opacity: 1;
+        }
+
+        .brand-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            font-size: 16px;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+
+        /* RIGHT SIDE - FORM */
+        .form-section {
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 40px;
+        }
+
+        .form-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            font-size: 15px;
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        /* FORM FIELDS */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 15px;
+            color: #1a202c;
+            background: transparent;
+            transition: all 0.3s;
+        }
+
+        .form-group input::placeholder {
+            color: #cbd5e0;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-bottom-color: #4a5568;
+        }
+
+        /* BUTTONS */
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: #1a202c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-login:hover {
+            background: #0d1117;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 32, 44, 0.25);
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            color: #1a202c;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-google:hover {
+            background: #f9fafb;
+            border-color: #cbd5e0;
+        }
+
+        /* FOOTER LINKS */
+        .form-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .form-footer a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .form-footer a:hover {
+            color: #2d3748;
+            text-decoration: underline;
+        }
+
+        /* ALERTS */
+        .alert {
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: none;
+            font-size: 13px;
+        }
+
+        .alert-danger {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .alert-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .brand-section {
+                padding: 50px 30px;
+            }
+
+            .form-section {
+                padding: 50px 40px;
+            }
+
+            .brand-title {
+                font-size: 32px;
+            }
+
+            .form-header h1 {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-section {
+                padding: 40px 30px;
+                min-height: 300px;
+            }
+
+            .form-section {
+                padding: 40px 30px;
+                min-height: 400px;
+            }
+
+            .brand-icon {
+                font-size: 60px;
+            }
+
+            .brand-title {
+                font-size: 28px;
+            }
+
+            .form-header h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-section {
+                padding: 30px 20px;
+                min-height: 250px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            .form-header h1 {
+                font-size: 20px;
+            }
+
+            .brand-icon {
+                font-size: 48px;
+                margin-bottom: 15px;
+            }
+
+            .btn-login, .btn-google {
+                padding: 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- LEFT BRAND SECTION -->
+        <div class="brand-section">
+            <div class="brand-content">
+                <div class="brand-icon">
+                    <i class="bi bi-eye-fill"></i>
+                </div>
+                <div class="brand-title">* Leo</div>
+                <div class="brand-subtitle">
+                    Facial Recognition<br>
+                    Attendance System
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT FORM SECTION -->
+        <div class="form-section">
+            <div class="form-header">
+                <h1>Welcome Back!</h1>
+                <p>Don't have an account? <a href="{{ url_for('register_user') }}" style="color: #4a5568; font-weight: 600; text-decoration: underline;">Create a new account now</a>, it's FREE! Takes less than a minute.</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, msg in messages %}
+                        <div class="alert alert-{{ 'danger' if category=='error' else 'success' }}" role="alert">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="form-group">
+                    <label for="email">Email or Phone</label>
+                    <input type="text" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+
+                <input type="hidden" name="role" value="student">
+
+                <button type="submit" class="btn-login">Login Now</button>
+            </form>
+
+            <button class="btn-google">
+                <i class="bi bi-google"></i> Login with Google
+            </button>
+
+            <div class="form-footer">
+                <a href="#">Forget password?</a> Click here
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.alert').forEach(alert => {
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f6f8 0%, #e8eaef 100%);
+        }
+        
+        .login-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .login-brand {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative background elements */
+        .login-brand::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        .login-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 50%;
+        }
+
+        .login-brand-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-brand-icon {
+            margin-bottom: 20px;
+            opacity: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-brand-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .login-brand h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .login-brand p {
+            font-size: 14px;
+            opacity: 0.85;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .login-form-section {
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: white;
+        }
+
+        .login-form-header {
+            margin-bottom: 30px;
+        }
+
+        .login-form-header h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+
+        .login-form-header p {
+            font-size: 14px;
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        /* Login Method Selector */
+        .login-method-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        .method-btn {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #718096;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .method-btn.active {
+            background: white;
+            border-color: #4a5568;
+            color: #1a202c;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .method-btn:hover {
+            background: #f9fafb;
+            border-color: #cbd5e0;
+        }
+
+        /* Role Selector */
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+            margin-top: 0;
+        }
+        
+        .role-option {
+            position: relative;
+        }
+        
+        .role-option input[type="radio"] {
+            display: none;
+        }
+        
+        .role-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            color: #718096;
+            margin: 0;
+            background: white;
+            font-size: 12px;
+        }
+        
+        .role-option input[type="radio"]:checked + label {
+            border-color: #4a5568;
+            background: #f7fafc;
+            color: #2d3748;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 13px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group input {
+            border: none;
+            border-bottom: 2px solid #e2e8f0;
+            border-radius: 0;
+            padding: 12px 0;
+            font-size: 15px;
+            width: 100%;
+            transition: all 0.2s;
+            background: transparent;
+            color: #1a202c;
+        }
+        
+        .form-group input::placeholder {
+            color: #cbd5e0;
+        }
+        
+        .form-group input:focus {
+            border-bottom-color: #4a5568;
+            box-shadow: none;
+            outline: none;
+        }
+
+        /* Login Button */
+        .login-btn {
+            width: 100%;
+            padding: 14px 16px;
+            background: #1a202c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 25px;
+            letter-spacing: 0.5px;
+        }
+        
+        .login-btn:hover {
+            background: #0d1117;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 32, 44, 0.2);
+        }
+
+        /* Footer */
+        .login-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #718096;
+        }
+        
+        .login-footer a {
+            color: #4a5568;
+            text-decoration: underline;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .login-footer a:hover {
+            color: #2d3748;
+        }
+
+        /* Alerts */
+        .alert {
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            font-size: 13px;
+        }
+
+        .alert-danger {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .alert-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .login-brand {
+                min-height: 300px;
+                padding: 40px 30px;
+            }
+
+            .login-form-section {
+                padding: 40px 30px;
+            }
+
+            .login-brand h2 {
+                font-size: 28px;
+            }
+
+            .login-form-header h3 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 15px;
+            }
+
+            .login-wrapper {
+                border-radius: 8px;
+            }
+
+            .login-brand {
+                padding: 30px 20px;
+                min-height: 250px;
+            }
+
+            .login-form-section {
+                padding: 30px 20px;
+            }
+
+            .login-brand h2 {
+                font-size: 24px;
+            }
+
+            .login-brand-icon {
+                font-size: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-wrapper">
+            <!-- Brand Section -->
+            <div class="login-brand">
+                <div class="login-brand-content">
+                    <div class="login-brand-icon" style="width: 80px; height: 80px; margin: 0 auto 20px;">
+                        <img src="{{ url_for('static', filename='leo-logo.svg') }}" alt="Leo" style="width: 100%; height: 100%; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));">
+                    </div>
+                    <div class="login-brand-logo">
+                        <span>*</span> Leo
+                    </div>
+                    <p>Facial Recognition<br>Attendance System</p>
+                </div>
+            </div>
+
+            <!-- Form Section -->
+            <div class="login-form-section">
+                <div class="login-form-header">
+                    <h3>Welcome Back</h3>
+                    <p>Sign in to continue</p>
+                </div>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, msg in messages %}
+                            <div class="alert alert-{{ 'danger' if category=='error' else 'success' }}" role="alert">
+                                {{ msg }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Login Method Selector -->
+                <div class="login-method-selector">
+                    <button type="button" class="method-btn active" data-method="email">
+                        <i class="bi bi-envelope"></i> Email
+                    </button>
+                    <button type="button" class="method-btn" data-method="phone">
+                        <i class="bi bi-telephone"></i> Mobile
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ url_for('login') }}" id="loginForm">
+                    <!-- Role Selector -->
+                    <div class="role-selector">
+                        <div class="role-option">
+                            <input type="radio" id="teacher" name="role" value="teacher" required>
+                            <label for="teacher"><i class="bi bi-person-workspace"></i> Teacher</label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="student" name="role" value="student" required checked>
+                            <label for="student"><i class="bi bi-book"></i> Student</label>
+                        </div>
+                    </div>
+
+                    <!-- Email/Phone Input -->
+                    <div class="form-group">
+                        <label for="loginInput" id="loginInputLabel">Email Address</label>
+                        <input type="email" class="form-control" id="loginInput" name="email" placeholder="your@email.com" required>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="login-btn">
+                        <i class="bi bi-box-arrow-in-right"></i> Sign In
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    Don't have an account? <a href="{{ url_for('register_user') }}">Create one</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const emailBtn = document.querySelector('[data-method="email"]');
+        const phoneBtn = document.querySelector('[data-method="phone"]');
+        const loginInput = document.getElementById('loginInput');
+        const loginInputLabel = document.getElementById('loginInputLabel');
+        const loginForm = document.getElementById('loginForm');
+
+        emailBtn.addEventListener('click', function() {
+            emailBtn.classList.add('active');
+            phoneBtn.classList.remove('active');
+            loginInput.type = 'email';
+            loginInput.name = 'email';
+            loginInput.placeholder = 'your@email.com';
+            loginInputLabel.textContent = 'Email Address';
+            loginInput.value = '';
+        });
+
+        phoneBtn.addEventListener('click', function() {
+            phoneBtn.classList.add('active');
+            emailBtn.classList.remove('active');
+            loginInput.type = 'tel';
+            loginInput.name = 'phone';
+            loginInput.placeholder = '10-digit mobile number';
+            loginInputLabel.textContent = 'Mobile Number';
+            loginInput.value = '';
+        });
+
+        // Override form submission to handle phone login
+        loginForm.addEventListener('submit', function(e) {
+            const isPhone = phoneBtn.classList.contains('active');
+            if (isPhone && loginInput.name === 'phone') {
+                // Convert phone to email format for backend
+                const phoneValue = loginInput.value;
+                const emailField = document.createElement('input');
+                emailField.type = 'hidden';
+                emailField.name = 'email';
+                emailField.value = `user_${phoneValue}@smartattendance.local`;
+                loginForm.appendChild(emailField);
+                loginInput.name = 'phone_number';
+            }
+        });
+
+        // Auto dismiss alerts after 5 seconds
+        document.querySelectorAll('.alert').forEach(alert => {
+            setTimeout(() => {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

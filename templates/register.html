@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Leo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            height: 100vh;
+        }
+
+        .register-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* LEFT SIDE - BRAND */
+        .brand-section {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        .brand-section::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 50%;
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-icon {
+            font-size: 80px;
+            margin-bottom: 25px;
+        }
+
+        .brand-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            font-size: 16px;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+
+        /* RIGHT SIDE - FORM */
+        .form-section {
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 40px;
+        }
+
+        .form-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            font-size: 15px;
+            color: #718096;
+        }
+
+        /* FORM FIELDS */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 15px;
+            color: #1a202c;
+            background: transparent;
+            transition: all 0.3s;
+        }
+
+        .form-group input::placeholder {
+            color: #cbd5e0;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-bottom-color: #4a5568;
+        }
+
+        /* ROLE SELECTOR */
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .role-option {
+            position: relative;
+        }
+
+        .role-option input[type="radio"] {
+            display: none;
+        }
+
+        .role-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            color: #718096;
+            margin: 0;
+            background: white;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .role-option input[type="radio"]:checked + label {
+            border-color: #4a5568;
+            background: #f7fafc;
+            color: #2d3748;
+        }
+
+        /* BUTTONS */
+        .btn-register {
+            width: 100%;
+            padding: 14px;
+            background: #1a202c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-register:hover {
+            background: #0d1117;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 32, 44, 0.25);
+        }
+
+        /* FOOTER LINKS */
+        .form-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .form-footer a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ALERTS */
+        .alert {
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: none;
+            font-size: 13px;
+        }
+
+        .alert-danger {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .alert-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .brand-section {
+                padding: 50px 30px;
+            }
+
+            .form-section {
+                padding: 50px 40px;
+            }
+
+            .brand-title {
+                font-size: 32px;
+            }
+
+            .form-header h1 {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .register-container {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-section {
+                padding: 40px 30px;
+                min-height: 300px;
+            }
+
+            .form-section {
+                padding: 40px 30px;
+            }
+
+            .brand-icon {
+                font-size: 60px;
+            }
+
+            .brand-title {
+                font-size: 28px;
+            }
+
+            .form-header h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-section {
+                padding: 30px 20px;
+                min-height: 250px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            .form-header h1 {
+                font-size: 20px;
+            }
+
+            .brand-icon {
+                font-size: 48px;
+                margin-bottom: 15px;
+            }
+
+            .btn-register {
+                padding: 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <!-- LEFT BRAND SECTION -->
+        <div class="brand-section">
+            <div class="brand-content">
+                <div class="brand-icon">
+                    <i class="bi bi-person-plus"></i>
+                </div>
+                <div class="brand-title">Create Account</div>
+                <div class="brand-subtitle">
+                    Join Leo and start<br>
+                    tracking attendance
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT FORM SECTION -->
+        <div class="form-section">
+            <div class="form-header">
+                <h1>Sign Up</h1>
+                <p>Already have an account? <a href="{{ url_for('login') }}" style="color: #4a5568; font-weight: 600; text-decoration: underline;">Login here</a></p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, msg in messages %}
+                        <div class="alert alert-{{ 'danger' if category=='error' else 'success' }}" role="alert">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Your Role</label>
+                    <div class="role-selector">
+                        <div class="role-option">
+                            <input type="radio" id="teacher" name="role" value="teacher">
+                            <label for="teacher"><i class="bi bi-person-workspace"></i> Teacher</label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="student" name="role" value="student" checked>
+                            <label for="student"><i class="bi bi-book"></i> Student</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-register">Create Account</button>
+            </form>
+
+            <div class="form-footer">
+                By signing up, you agree to our <a href="#">Terms & Conditions</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.alert').forEach(alert => {
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
+        .register-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f6f8 0%, #e8eaef 100%);
+            padding: 20px;
+        }
+        
+        .register-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 500px;
+            padding: 45px;
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .register-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .register-header p {
+            color: #718096;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .role-option {
+            flex: 1;
+        }
+        
+        .role-option input[type="radio"] {
+            display: none;
+        }
+        
+        .role-option label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #718096;
+            margin: 0;
+            background: white;
+        }
+        
+        .role-option input[type="radio"]:checked + label {
+            border-color: #4a5568;
+            background: #f5f6f8;
+            color: #2d3748;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 14px;
+            transition: all 0.3s;
+            color: #2d3748;
+        }
+        
+        .form-group input:focus {
+            border-color: #4a5568;
+            box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.1);
+            outline: none;
+        }
+        
+        .register-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4a5568;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-2px);
+            background: #2d3748;
+            box-shadow: 0 5px 20px rgba(74, 85, 104, 0.3);
+        }
+        
+        .register-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .register-footer a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 20px;
+        }
+        
+        .icon-large {
+            font-size: 40px;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body class="register-container">
+    <div class="register-box">
+        <div class="register-header">
+            <div class="icon-large"><i class="bi bi-person-plus"></i></div>
+            <h1>Create Account</h1>
+            <p>Join Leo Attendance System</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, msg in messages %}
+                    <div class="alert alert-{{ 'danger' if category=='error' else 'success' }}" role="alert">
+                        {{ msg }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('register_user') }}">
+            <div class="role-selector">
+                <div class="role-option">
+                    <input type="radio" id="teacher" name="role" value="teacher" required>
+                    <label for="teacher"><i class="bi bi-person-workspace"></i> Teacher</label>
+                </div>
+                <div class="role-option">
+                    <input type="radio" id="student" name="role" value="student" required checked>
+                    <label for="student"><i class="bi bi-book"></i> Student</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="John Doe" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="your@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number (Optional)</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required minlength="6">
+                <small class="text-muted">At least 6 characters</small>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="••••••••" required minlength="6">
+            </div>
+
+            <button type="submit" class="register-btn">
+                <i class="bi bi-person-check"></i> Create Account
+            </button>
+        </form>
+
+        <div class="register-footer">
+            Already have an account? <a href="{{ url_for('login') }}">Sign in</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+  
+  if (name.length < 2) {
+    e.preventDefault();
+    alert('Please enter a valid student name');
+    return false;
+  }
+  
+  if (!file) {
+    e.preventDefault();
+    alert('Please select an image file');
+    return false;
+  }
+});
+</script>
+
+<style>
+.file-input-wrapper {
+  position: relative;
+}
+
+.form-control-lg {
+  height: auto;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+</style>
+{% endblock %}
